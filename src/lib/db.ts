@@ -1,5 +1,5 @@
 import { MongoClient } from 'mongodb';
-import { DB_URI } from '$env/static/private';
+import { DB_NAME, DB_URI } from '$env/static/private';
 
 // MongoDB connection URL
 const uri = DB_URI;
@@ -16,6 +16,6 @@ async function connectToDatabase() {
 
 export async function getCollection(collectionName: string) {
 	const dbClient = await connectToDatabase();
-	const database = dbClient.db('wordle');
+	const database = dbClient.db(DB_NAME);
 	return database.collection(collectionName);
 }

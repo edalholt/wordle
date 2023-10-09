@@ -1,31 +1,33 @@
-# create-svelte
+# Yet another daily wordle
 
-Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/master/packages/create-svelte).
-
-## Creating a project
-
-If you're seeing this, you've probably already done this step. Congrats!
-
-```bash
-# create a new project in the current directory
-npm create svelte@latest
-
-# create a new project in my-app
-npm create svelte@latest my-app
-```
+Yes, it exists many wordle games already. Therefore i have created one more. The objective is simple: guess the hidden five-letter word. With each guess, you'll receive feedback on which letters are correct and in the right position (green), which letters are correct but in the wrong position (yellow), and which letters are not in the word at all. It's a brain-teasing game that will test your word-finding skills. Because the word are not revealed after a given amount of tries, and all kind of uncommon words can be the word of the day, there are no limit in number of guesses. A simple algorithm picks out a new word every day, have fun!
 
 ## Developing
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+This project are created using SvelteKit and a MongoDB database.
 
-```bash
-npm run dev
+Create a MongoDB database, for example by using docker
 
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
+`docker run -d --name wordle-mongodb -p 27017:27017 mongo`
 
-## Building
+The database need to include all allowed 5-letter words in a collection named `words`.  
+Words can be imported from this [wordlist](/wordlist/words.json).
+
+Create a .env in the root of this project containing the database connection string
+
+Example:  
+`DB_URI = mongodb://localhost:27017
+DB_NAME = wordle`
+
+Install dependencies
+
+`npm i`
+
+Start the server
+
+`npm run dev`
+
+## Buildng
 
 To create a production version of your app:
 
