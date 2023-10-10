@@ -1,30 +1,16 @@
-import { getCollection } from '$lib/db';
-const words = await getCollection('words');
+import wordlist from '$lib/words.json';
 
 export async function POST({ request }) {
 	let validWord = true;
 	const { guess } = await request.json();
-	const findValidWord = await words.find({ word: guess }).toArray();
-	if (findValidWord.length < 1) {
+	const findValidWord = wordlist.includes(guess);
+	if (!findValidWord) {
 		return new Response(JSON.stringify({ letters: null, validWord: false }), {
 			headers: { 'Content-Type': 'application/json' }
 		});
 	}
 
-	const resultArray = await words
-		.find()
-		.skip(await getDailyWordIndex())
-		.limit(1)
-		.toArray();
-	let word = '';
-	if (resultArray.length > 0) {
-		word = resultArray[0].word;
-	} else {
-		return new Response(JSON.stringify({ error: 'Daily word not found in DB' }), {
-			headers: { 'Content-Type': 'application/json' },
-			status: 500
-		});
-	}
+	const word = wordlist[await getDailyWordIndex()];
 
 	let wordWithoutCorrect = word;
 
@@ -77,8 +63,8 @@ export async function POST({ request }) {
 	);
 }
 
-const getDailyWordIndex = async () => {
-	const wordCount = await words.countDocuments();
+const getDailyWordIndex = () => {
+	const wordCount = wordlist.length - 1;
 	const randomWordIndex = getDailyInt(0, wordCount);
 	return randomWordIndex;
 };

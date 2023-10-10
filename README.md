@@ -4,20 +4,7 @@ Yes, it exists many wordle games already. Therefore i have created one more. The
 
 ## Developing
 
-This project are created using SvelteKit and a MongoDB database.
-
-Create a MongoDB database, for example by using docker
-
-`docker run -d --name wordle-mongodb -p 27017:27017 mongo`
-
-The database need to include all allowed 5-letter words in a collection named `words`.  
-Words can be imported from this [wordlist](/wordlist/words.json).
-
-Create a .env in the root of this project containing the database connection string
-
-Example:  
-`DB_URI = mongodb://localhost:27017
-DB_NAME = wordle`
+This project are created using SvelteKit.
 
 Install dependencies
 
