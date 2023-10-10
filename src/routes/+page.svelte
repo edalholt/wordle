@@ -2,7 +2,10 @@
     $: word = ""
     /** @type {{ letter: string, status: number, placement: number }[][]} */
     $: prevWords = []
+    $: wrongLetters = ""
     $: correct = false
+    $: usedLetterColor = "#225633"
+    $: unusedLetterColor = "#2d3339"
 
     // Function for handling button click and send post request to server
     const handleGuess = async () => {
@@ -19,6 +22,16 @@
         return
       }
       prevWords = [...prevWords, data.letters];
+
+      // Store and skip the letters already iterated over to avoid correct duplicate letters to be flagged as wrong.
+      let checkedLetters = ""
+      for (const letter of data.letters) {
+        if (letter.status === 0 && !wrongLetters.includes(letter.letter) && !checkedLetters.includes(letter.letter)) {
+          wrongLetters += letter.letter;
+        }
+        checkedLetters += letter.letter;
+      }
+      
       if (data.correct) {
         correct = true
       }
@@ -73,6 +86,28 @@
       {#if correct}
       <h1 class="heading">Correct word!</h1>
       {/if}
+
+      <div class="keyboard">
+        <div class="keyboardRow">
+        {#each "qwertyuiop".split('') as letter} 
+          <button style="background-color: {wrongLetters.includes(letter) ? unusedLetterColor : usedLetterColor};"  on:click={() => onKeyDown({key: letter})}>{letter.toUpperCase()}</button>
+
+        {/each}
+        </div>
+        <div class="keyboardRow">
+          {#each "asdfghjkl".split('') as letter} 
+            <button style="background-color: {wrongLetters.includes(letter) ? unusedLetterColor : usedLetterColor};"  on:click={() => onKeyDown({key: letter})}>{letter.toUpperCase()}</button>
+    
+          {/each}
+          </div>
+          <div class="keyboardRow">
+            {#each "zxcvbnm".split('') as letter} 
+              <button style="background-color: {wrongLetters.includes(letter) ? unusedLetterColor : usedLetterColor};" on:click={() => onKeyDown({key: letter})}>{letter.toUpperCase()}</button>
+      
+            {/each}
+            <button id="enterBtn" on:click={() => onKeyDown({key: "Enter"})}></button>
+          </div>
+        </div>
     </div>
 
   </main>
@@ -127,6 +162,40 @@
       display: flex;
       justify-content: center;
       align-items: center;
+    }
+
+    .keyboard {
+      margin-top: 10vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .keyboardRow {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .keyboardRow button {
+      background-color: #225633;
+      border: 0;
+      font-family: Verdana, Geneva, Tahoma, sans-serif;
+      color: white;
+      width: 2rem;
+      height: 2rem;
+      margin: 0 0.5rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    #enterBtn {
+      background-image: url("enter.svg");
+      background-size: 1.5em;
+      background-position: center;
+      background-repeat: no-repeat;
     }
   </style>
   <svelte:window on:keydown|preventDefault={onKeyDown} />
