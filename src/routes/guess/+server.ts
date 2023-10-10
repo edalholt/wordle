@@ -1,6 +1,6 @@
 import wordlist from '$lib/words.json';
 
-export async function POST({ request }) {
+export async function POST({ request, cookies }) {
 	let validWord = true;
 	const { guess } = await request.json();
 	const findValidWord = wordlist.includes(guess);
@@ -54,6 +54,18 @@ export async function POST({ request }) {
 			}
 		}
 	}
+
+	// Date for the cookie to expire one second before the next day, when there is a new word.
+	const cookieExpiry = new Date().setHours(23, 59, 59, 0);
+	const prevGuesses = cookies.get('guess') || JSON.stringify({ words: [], correct: false });
+	cookies.set(
+		'guess',
+		JSON.stringify({ words: [...JSON.parse(prevGuesses).words, result], correct: guess == word }),
+		{
+			path: '/',
+			expires: new Date(cookieExpiry)
+		}
+	);
 
 	return new Response(
 		JSON.stringify({ letters: result, validWord: validWord, correct: guess === word }),

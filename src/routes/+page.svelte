@@ -1,9 +1,11 @@
 <script>
     $: word = ""
-    /** @type {{ letter: string, status: number, placement: number }[][]} */
-    $: prevWords = []
+    /** @type {import('./$types').PageData} */
+    export let data;
+    
+    $: prevGuesses = data.prevGuesses.words
     $: wrongLetters = ""
-    $: correct = false
+    $: correct = data.prevGuesses.correct
     $: usedLetterColor = "#225633"
     $: unusedLetterColor = "#2d3339"
     $: invalidWord = false;
@@ -26,7 +28,7 @@
         }, 1500);
         return
       }
-      prevWords = [...prevWords, data.letters];
+      prevGuesses = [...prevGuesses, data.letters];
 
       // Store and skip the letters already iterated over to avoid correct duplicate letters to be flagged as wrong.
       let checkedLetters = ""
@@ -68,7 +70,7 @@
     <h1 class="heading">Yet Another Wordle</h1>
 
     <div id="game">
-      {#each prevWords as word}
+      {#each prevGuesses as word}
       <div class="wordRow">
       {#each word as letter}
         <div class="letter" style="border-color: {letter.placement === 1 ? '#005c26' : letter.status === 1 ? '#b59f3b' : '#689cc5'}">{letter.letter.toUpperCase()}</div>
