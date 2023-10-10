@@ -146,7 +146,6 @@
     }
     #game {
       margin-top: 5vh;
-      margin-bottom: 60vh;
     }
 
     #notInListNotification {
@@ -220,10 +219,16 @@
     @media only screen and (max-width: 850px) {
       main {
         margin-right: 0;
+        margin-top: 25vw;
       }
 
       :global(body){
         background-position: 65% 50%;
+        touch-action: manipulation;
+      }
+
+      .keyboard {
+        margin-top: 5vh;
       }
     }
   </style>
