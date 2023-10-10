@@ -109,11 +109,12 @@
           {/each}
           </div>
           <div class="keyboardRow">
+            <button id="enterBtn" on:click={() => onKeyDown({key: "Enter"})}></button>
             {#each "zxcvbnm".split('') as letter} 
               <button style="background-color: {wrongLetters.includes(letter) ? unusedLetterColor : usedLetterColor};" on:click={() => onKeyDown({key: letter})}>{letter.toUpperCase()}</button>
       
             {/each}
-            <button id="enterBtn" on:click={() => onKeyDown({key: "Enter"})}></button>
+            <button id="backBtn" on:click={() => onKeyDown({key: "Backspace"})}></button>
           </div>
         </div>
     </div>
@@ -203,7 +204,14 @@
 
     #enterBtn {
       background-image: url("/enter.svg");
-      background-size: 1.5em;
+      background-size: 1.2em;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+
+    #backBtn {
+      background-image: url("/backspace.svg");
+      background-size: 1.2em;
       background-position: center;
       background-repeat: no-repeat;
     }
