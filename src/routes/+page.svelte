@@ -143,13 +143,6 @@
       margin-top: 30vh;
       margin-right: 40vw;
     }
-
-    @media only screen and (max-width: 600px) {
-      main {
-        margin-right: 0;
-      }
-    }
-
     #game {
       margin-top: 5vh;
       margin-bottom: 60vh;
@@ -189,6 +182,7 @@
     }
 
     .keyboardRow {
+      max-width: 90vw;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -200,7 +194,7 @@
       color: white;
       width: 2rem;
       height: 2rem;
-      margin: 0 0.5rem;
+      margin: 0 0.2rem;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -212,6 +206,17 @@
       background-size: 1.5em;
       background-position: center;
       background-repeat: no-repeat;
+    }
+
+
+    @media only screen and (max-width: 850px) {
+      main {
+        margin-right: 0;
+      }
+
+      :global(body){
+        background-position: 65% 50%;
+      }
     }
   </style>
   <svelte:window on:keydown|preventDefault={onKeyDown} />
