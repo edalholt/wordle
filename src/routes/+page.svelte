@@ -132,7 +132,7 @@
     }
     :global(body){
       background-color: #19242f;
-      background-image: url('waveBg.svg');
+      background-image: url('/waveBg.svg');
       background-repeat: no-repeat;
       background-size: cover;
       min-height: 100vh;
@@ -208,7 +208,7 @@
     }
 
     #enterBtn {
-      background-image: url("enter.svg");
+      background-image: url("/enter.svg");
       background-size: 1.5em;
       background-position: center;
       background-repeat: no-repeat;
