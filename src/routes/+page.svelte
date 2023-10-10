@@ -6,6 +6,7 @@
     $: correct = false
     $: usedLetterColor = "#225633"
     $: unusedLetterColor = "#2d3339"
+    $: invalidWord = false;
 
     // Function for handling button click and send post request to server
     const handleGuess = async () => {
@@ -17,8 +18,12 @@
         body: JSON.stringify({ guess: word })
       })
       const data = await response.json()
-      console.log(data)
+      
       if (!data.validWord){
+        invalidWord = true;
+        setTimeout(() => {
+          invalidWord = false;
+        }, 1500);
         return
       }
       prevWords = [...prevWords, data.letters];
@@ -86,6 +91,9 @@
       {#if correct}
       <h1 class="heading">Correct word!</h1>
       {/if}
+      <div style="visibility: {invalidWord ? "visible" : "hidden"};" id="notInListNotification">
+        Word not in list
+      </div>
 
       <div class="keyboard">
         <div class="keyboardRow">
@@ -146,6 +154,12 @@
       margin-top: 5vh;
       margin-bottom: 60vh;
     }
+
+    #notInListNotification {
+      color: wheat;
+      font-family: 'Times New Roman', Times, serif;
+      display: block;
+    }
     .wordRow {
       display: flex;
       justify-content: center;
@@ -154,6 +168,7 @@
     }
     .letter {
       border: 4px solid #689cc5;
+      border-radius: 5px;
       font-family: Verdana, Geneva, Tahoma, sans-serif;
       color: white;
       width: 2rem;
@@ -189,6 +204,7 @@
       display: flex;
       justify-content: center;
       align-items: center;
+      border-radius: 3px;
     }
 
     #enterBtn {
