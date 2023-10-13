@@ -1,4 +1,4 @@
-import wordlist from '$lib/words.json';
+import { wordlist } from '$lib/words';
 
 export async function POST({ request, cookies }) {
 	let validWord = true;
@@ -10,7 +10,7 @@ export async function POST({ request, cookies }) {
 		});
 	}
 
-	const word = wordlist[await getDailyWordIndex()];
+	const word = wordlist[getDailyWordIndex()];
 
 	let wordWithoutCorrect = word;
 
@@ -86,6 +86,6 @@ function getDailyInt(min: number, max: number): number {
 	const seed =
 		currentDate.getFullYear() * 10000 + (currentDate.getMonth() + 1) * 100 + currentDate.getDate();
 	const randomValue = Math.sin(seed) * 10000;
-	const randomInRange = Math.floor((randomValue % (max - min + 1)) + min);
+	const randomInRange = Math.abs(Math.floor((randomValue % (max - min + 1)) + min));
 	return randomInRange;
 }
