@@ -1,14 +1,25 @@
 <script>
+	import { onMount } from 'svelte';
+
     $: word = ""
     /** @type {import('./$types').PageData} */
     export let data;
-    
-    $: prevGuesses = data.prevGuesses.words
+
     $: wrongLetters = ""
+    $: prevGuesses = data.prevGuesses.words
     $: correct = data.prevGuesses.correct
     $: usedLetterColor = "#225633"
     $: unusedLetterColor = "#2d3339"
     $: invalidWord = false;
+
+    // Get wrong previously guessed letters from cookie
+    // Using onMount to avoid problems with SSR
+    onMount(() => {
+      const cookie = document.cookie.split(';').find(cookie => cookie.includes('wrongLetters'))
+      if (cookie) {
+        wrongLetters = cookie.split('=')[1]
+      }
+    })
 
     // Function for handling button click and send post request to server
     const handleGuess = async () => {
@@ -43,6 +54,8 @@
         correct = true
       }
       word = ""
+      // Store wrong letters in cookie, until end of day when a new game is started.
+      document.cookie = `wrongLetters=${wrongLetters}; expires=${new Date(new Date().setHours(23, 59, 59, 0))}`
     }
 
     // Event listener for key press and capture letter
