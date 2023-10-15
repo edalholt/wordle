@@ -12,7 +12,7 @@
     $: unusedLetterColor = "#2d3339"
     $: invalidWord = false;
 
-    // Get wrong previously guessed letters from cookie
+    // Get wrong previously guessed letters from client cookie
     // Using onMount to avoid problems with SSR
     onMount(() => {
       const cookie = document.cookie.split(';').find(cookie => cookie.includes('wrongLetters'))
@@ -80,7 +80,7 @@
   
   <main>
 
-    <h1 class="heading">Yet Another Wordle</h1>
+    <h1 class="heading">Yet Another Daily Wordle</h1>
 
     <div id="game">
       {#each prevGuesses as word}
@@ -137,6 +137,7 @@
   </main>
   
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Questrial&display=swap');
 
     * {
       margin: 0;
@@ -144,7 +145,8 @@
     }
     .heading {
       color: white;
-      font-family: 'Times New Roman', Times, serif;
+      font-size: 1.6rem;
+      font-family: 'Questrial', sans-serif, Verdana, Geneva, Tahoma;
     }
     :global(body){
       background-color: #19242f;
@@ -165,7 +167,7 @@
 
     #notInListNotification {
       color: wheat;
-      font-family: 'Times New Roman', Times, serif;
+      font-family: 'Questrial', sans-serif, Verdana, Geneva, Tahoma;
       display: block;
     }
     .wordRow {
