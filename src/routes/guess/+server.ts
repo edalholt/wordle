@@ -1,16 +1,16 @@
-import { wordlist } from '$lib/words';
+import { wordlist, words } from '$lib/words';
 
 export async function POST({ request, cookies }) {
 	let validWord = true;
 	const { guess } = await request.json();
-	const findValidWord = wordlist.includes(guess);
+	const findValidWord = wordlist.has(guess);
 	if (!findValidWord) {
 		return new Response(JSON.stringify({ letters: null, validWord: false }), {
 			headers: { 'Content-Type': 'application/json' }
 		});
 	}
 
-	const word = wordlist[getDailyWordIndex()];
+	const word = words[getDailyWordIndex()];
 
 	let wordWithoutCorrect = word;
 
@@ -76,7 +76,7 @@ export async function POST({ request, cookies }) {
 }
 
 const getDailyWordIndex = () => {
-	const wordCount = wordlist.length - 1;
+	const wordCount = words.length - 1;
 	const randomWordIndex = getDailyInt(0, wordCount);
 	return randomWordIndex;
 };
