@@ -1,6 +1,6 @@
 <script>
 	import { onMount } from 'svelte';
-
+  import { Confetti } from 'svelte-confetti';
     $: word = ""
     /** @type {import('./$types').PageData} */
     export let data;
@@ -105,6 +105,7 @@
       {/if}
       {#if correct}
       <h1 class="heading">Correct word!</h1>
+      <Confetti y={[0.3, 1.5]} x={[-4, 4]} delay={[0, 1050]} />
       {/if}
       <div style="visibility: {invalidWord ? "visible" : "hidden"};" id="notInListNotification">
         Word not in list
